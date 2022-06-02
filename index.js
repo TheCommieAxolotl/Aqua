@@ -6,11 +6,11 @@ const MessageActions = WebpackModules.findByProps("sendMessage");
 const BotMessageActions = WebpackModules.findByProps("sendBotMessage");
 
 class MutatableObject extends Object {
-    constructor({ ...items }) {
+    constructor(items) {
         super();
-        Object.keys(items).forEach((key) => {
-            this[key] = items[key];
-        });
+        if (items) {
+            this.extend(items);
+        }
     }
 
     /**
@@ -49,10 +49,10 @@ class MutatableObject extends Object {
 
 const Aqua = new (class {
     constructor(ALLOW_LIST, BLOCK_LIST, SAFE_LIST, GUILD_BLACKLIST) {
-        this.ALLOW_LIST = new MutatableObject(ALLOW_LIST) || new MutatableObject({});
-        this.BLOCK_LIST = new MutatableObject(BLOCK_LIST) || new MutatableObject({});
-        this.SAFE_LIST = new MutatableObject(SAFE_LIST) || new MutatableObject({});
-        this.GUILD_BLACKLIST = new MutatableObject(GUILD_BLACKLIST) || new MutatableObject({});
+        this.ALLOW_LIST = new MutatableObject(ALLOW_LIST) || new MutatableObject();
+        this.BLOCK_LIST = new MutatableObject(BLOCK_LIST) || new MutatableObject();
+        this.SAFE_LIST = new MutatableObject(SAFE_LIST) || new MutatableObject();
+        this.GUILD_BLACKLIST = new MutatableObject(GUILD_BLACKLIST) || new MutatableObject();
     }
 
     /**
