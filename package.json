@@ -1,5 +1,5 @@
 {
-    "name": "aqua",
+    "name": "@thecommieaxolotl/aqua",
     "version": "0.0.1",
     "description": "A Discord User-Command Library for the Velocity client modification.",
     "main": "index.js",
