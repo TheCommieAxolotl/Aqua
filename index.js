@@ -1,9 +1,11 @@
 // @ts-check
 // @ts-ignore
-const { WebpackModules, FluxDispatcher } = VApi;
+const { findByProps } = require("./Webpack");
 
-const MessageActions = WebpackModules.findByProps("sendMessage");
-const BotMessageActions = WebpackModules.findByProps("sendBotMessage");
+const FluxDispatcher = findByProps("_currentDispatchActionType", "_processingWaitQueue");
+
+const MessageActions = findByProps("sendMessage");
+const BotMessageActions = findByProps("sendBotMessage");
 
 class MutatableObject extends Object {
     constructor(items) {
@@ -48,11 +50,11 @@ class MutatableObject extends Object {
 }
 
 const Aqua = new (class {
-    constructor(ALLOW_LIST, BLOCK_LIST, SAFE_LIST, GUILD_BLACKLIST) {
-        this.ALLOW_LIST = new MutatableObject(ALLOW_LIST) || new MutatableObject();
-        this.BLOCK_LIST = new MutatableObject(BLOCK_LIST) || new MutatableObject();
-        this.SAFE_LIST = new MutatableObject(SAFE_LIST) || new MutatableObject();
-        this.GUILD_BLACKLIST = new MutatableObject(GUILD_BLACKLIST) || new MutatableObject();
+    constructor() {
+        this.ALLOW_LIST = [];
+        this.BLOCK_LIST = [];
+        this.SAFE_LIST = [];
+        this.GUILD_BLACKLIST = [];
     }
 
     /**
@@ -60,28 +62,28 @@ const Aqua = new (class {
      * @returns {boolean}
      */
     isBlacklisted(guildId) {
-        return this.GUILD_BLACKLIST[guildId];
+        return Boolean(Aqua.GUILD_BLACKLIST.find((m) => m === guildId));
     }
     /**
      * @param {string | number} userId
      * @returns {boolean}
      */
     isBlocked(userId) {
-        return this.BLOCK_LIST[userId];
+        return Boolean(Aqua.BLOCK_LIST.find((m) => m === userId));
     }
     /**
      * @param {string | number} userId
      * @returns {boolean}
      */
     isSafe(userId) {
-        return this.SAFE_LIST[userId];
+        return Boolean(Aqua.SAFE_LIST.find((m) => m === userId));
     }
     /**
      * @param {string | number} userId
      * @returns {boolean}
      */
     isAllowed(userId) {
-        return this.ALLOW_LIST[userId];
+        return Boolean(Aqua.ALLOW_LIST.find((m) => m === userId));
     }
 
     CommandGroup = class CommandGroup {
