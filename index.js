@@ -205,7 +205,7 @@ const Aqua = new (class {
                     validNonShortcutEmojis: [],
                 },
                 undefined,
-                {},
+                {}
             );
         }, 1000);
     }
